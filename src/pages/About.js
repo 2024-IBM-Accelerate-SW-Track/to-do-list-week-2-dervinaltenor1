@@ -1,31 +1,41 @@
-import React, { Component } from "react";
-import "./About.css";
-import profile_pic from "../assets/profile_pic.jpg";
+import React from "react";
+import "../component/todos.css";
+import { ListItemButton, Card, Grid, ListItemText, Checkbox } from "@mui/material";
 
-export default class About extends Component {
-  render() {
-    return (
-      <div>
-        {/* <p>Design your About me page </p> */}
-        <div class="split left">
-          <div className="centered">
-            <img
-              className="profile_image"
-              src={profile_pic}
-              alt="Profile Pic"
-            ></img>
-          </div>
-        </div>
-        <div className="split right">
-          <div className="centered">
-            <div className="name_title">Your Name</div>
-            <div className="brief_description">
-              Tell us about yourself in a few sentences. Tell us your interests
-              and say a fun fact about yourself.
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
-}
+// 1. This component formats and returns the list of todos.
+// 2. Treat the question mark like an if statement.
+// If the todos array has items in the list [todos.length], we want to return the list
+// Else, return a message saying "You have no todo's left"
+// 3. The map function is called to assign each array item with a key
+// 4. Think of lines 14-23 as a loop. For each todo in the todo list, we want to give the list item
+// a key, and it's own card shown in the UI
+const Todos = ({ todos, deleteTodo }) => {
+  const todoList = todos.length ? (
+    todos.map((todo) => {
+      return (
+        <Grid key={todo.id}>
+          <Card style={{marginTop:10}}>
+            {/* Remember, we set the local state of this todo item when the user submits the form in 
+            AddTodo.js. All we need to do is return the todo list item {todo.content} */}
+              <ListItemButton component="a" href="#simple-list">
+                  <Checkbox style={{paddingLeft:"0"}}
+                            color = 'primary'
+                            onClick={() => deleteTodo(todo.id)}/>
+                  <ListItemText primary={todo.content} secondary={todo.date}/>
+              </ListItemButton>
+          </Card>
+        </Grid>
+      );
+    })
+  ) : (
+    <p>You have no todo's left </p>
+  );
+  // Lastly, return the todoList constant that we created above to show all of the items on the screen.
+  return (
+    <div className="todoCollection" style={{ padding: "10px" }}>
+      {todoList}
+    </div>
+  );
+};
+
+export default Todos;
